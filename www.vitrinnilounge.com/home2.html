@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrinni Lounge - A Melhor Noite da Barra da Tijuca</title>
+    <link rel="stylesheet" href="css/theme-vendors.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="css/all.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Header Moderno */
+        .modern-header {
+            position: fixed; width: 100%; z-index: 1000;
+            background: rgba(0,0,0,0.98); backdrop-filter: blur(15px);
+            padding: 20px 60px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .brand { font-size: 32px; font-weight: 900; color: #D4AF37; }
+        .nav-modern a {
+            color: #fff; text-decoration: none; margin: 0 20px;
+            font-weight: 600; font-size: 14px; transition: all 0.3s;
+        }
+        .nav-modern a:hover { color: #D4AF37; }
+        .whats-btn {
+            background: #25D366; padding: 12px 30px;
+            border-radius: 30px; color: #fff; font-weight: 700;
+        }
+        
+        /* Hero com Vídeo */
+        .hero-modern {
+            height: 100vh; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(212,175,55,0.4)),
+                        url('images/casabg.webp') center/cover;
+        }
+        .hero-modern-content {
+            position: relative; z-index: 2; text-align: center; color: #fff;
+        }
+        .hero-modern h1 {
+            font-size: 90px; font-weight: 900; margin-bottom: 20px;
+            text-transform: uppercase; line-height: 1;
+            background: linear-gradient(135deg, #D4AF37, #fff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-modern p {
+            font-size: 24px; margin-bottom: 40px; color: #fff;
+        }
+        .hero-cta {
+            display: inline-block; padding: 20px 50px;
+            background: linear-gradient(135deg, #D4AF37, #B8941F);
+            color: #000; font-weight: 800; font-size: 18px;
+            border-radius: 50px; text-decoration: none;
+            box-shadow: 0 10px 40px rgba(212,175,55,0.4);
+            transition: transform 0.3s;
+        }
+        .hero-cta:hover { transform: scale(1.05); }
+        
+        /* Programação Destaque */
+        .programacao-section {
+            padding: 100px 60px; background: #000;
+        }
+        .section-header {
+            text-align: center; margin-bottom: 80px;
+        }
+        .section-header h2 {
+            font-size: 56px; font-weight: 900; color: #D4AF37;
+            margin-bottom: 20px;
+        }
+        .section-header p {
+            font-size: 20px; color: #fff;
+        }
+        .eventos-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px; max-width: 1400px; margin: 0 auto;
+        }
+        .evento-card {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            border-radius: 20px; overflow: hidden;
+            border: 2px solid #D4AF37; transition: all 0.4s;
+        }
+        .evento-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(212,175,55,0.4);
+        }
+        .evento-img {
+            height: 250px; background: linear-gradient(135deg, #D4AF37, #B8941F);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 64px; color: #000;
+        }
+        .evento-info {
+            padding: 30px; color: #fff;
+        }
+        .evento-info h3 {
+            font-size: 24px; margin-bottom: 15px; color: #D4AF37;
+        }
+        .evento-info p {
+            color: #ccc; margin-bottom: 20px;
+        }
+        .evento-btn {
+            display: inline-block; padding: 12px 30px;
+            background: #D4AF37; color: #000; font-weight: 700;
+            border-radius: 25px; text-decoration: none;
+        }
+        
+        /* Diferenciais */
+        .diferenciais-section {
+            padding: 100px 60px;
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+        }
+        .diferenciais-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 40px; max-width: 1400px; margin: 0 auto;
+        }
+        .diferencial-item {
+            text-align: center; padding: 40px 20px;
+            background: rgba(0,0,0,0.3); border-radius: 15px;
+        }
+        .diferencial-item i {
+            font-size: 56px; color: #000; margin-bottom: 20px;
+        }
+        .diferencial-item h4 {
+            font-size: 20px; color: #000; margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .diferencial-item p {
+            color: #000; opacity: 0.8;
+        }
+        
+        /* Aniversários */
+        .aniversario-section {
+            padding: 100px 60px; background: #000;
+            text-align: center;
+        }
+        .aniversario-content {
+            max-width: 900px; margin: 0 auto;
+        }
+        .aniversario-content h2 {
+            font-size: 56px; color: #D4AF37; margin-bottom: 30px;
+        }
+        .aniversario-content p {
+            font-size: 22px; color: #fff; margin-bottom: 40px;
+        }
+        .benefits-list {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 30px; margin: 50px 0;
+        }
+        .benefit {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            padding: 30px; border-radius: 15px;
+            border: 2px solid #D4AF37;
+        }
+        .benefit i {
+            font-size: 40px; color: #D4AF37; margin-bottom: 15px;
+        }
+        .benefit h5 {
+            font-size: 18px; color: #fff; margin-bottom: 10px;
+        }
+        
+        /* CTA Final */
+        .cta-final {
+            padding: 100px 60px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.9)),
+                        url('images/niverbg.jpg') center/cover fixed;
+            text-align: center; color: #fff;
+        }
+        .cta-final h2 {
+            font-size: 64px; margin-bottom: 30px; font-weight: 900;
+        }
+        .cta-final p {
+            font-size: 24px; margin-bottom: 50px;
+        }
+        
+        /* Footer Moderno */
+        .modern-footer {
+            padding: 60px; background: #000;
+            color: #fff; text-align: center;
+        }
+        .footer-social a {
+            display: inline-block; margin: 0 15px;
+            font-size: 32px; color: #D4AF37;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .modern-header { padding: 15px 20px; flex-direction: column; }
+            .nav-modern { margin-top: 15px; }
+            .hero-modern h1 { font-size: 48px; }
+            .diferenciais-grid { grid-template-columns: 1fr; }
+            .benefits-list { grid-template-columns: 1fr; }
+            .eventos-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="modern-header">
+        <div class="brand">VITRINNI</div>
+        <nav class="nav-modern">
+            <a href="#programacao">Programação</a>
+            <a href="#aniversario">Aniversários</a>
+            <a href="#diferenciais">Sobre</a>
+            <a href="https://api.whatsapp.com/send?phone=5521995382032" class="whats-btn">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-modern">
+        <div class="hero-bg"></div>
+        <div class="hero-modern-content">
+            <h1>VITRINNI LOUNGE</h1>
+            <p>A melhor balada da Barra da Tijuca</p>
+            <a href="#programacao" class="hero-cta">COLOQUE SEU NOME NA LISTA</a>
+        </div>
+    </section>
+
+    <!-- Programação -->
+    <section id="programacao" class="programacao-section">
+        <div class="section-header">
+            <h2>PROGRAMAÇÃO</h2>
+            <p>Confira os próximos eventos</p>
+        </div>
+        <div class="eventos-grid">
+            <div class="evento-card">
+                <div class="evento-img"><i class="fas fa-music"></i></div>
+                <div class="evento-info">
+                    <h3>QUINTA-FEIRA</h3>
+                    <p>Open Bar com os melhores DJs</p>
+                    <a href="index.html#eventos" class="evento-btn">Ver Detalhes</a>
+                </div>
+            </div>
+            <div class="evento-card">
+                <div class="evento-img"><i class="fas fa-star"></i></div>
+                <div class="evento-info">
+                    <h3>SEXTA-FEIRA</h3>
+                    <p>Noite Especial com Shows ao Vivo</p>
+                    <a href="index.html#eventos" class="evento-btn">Ver Detalhes</a>
+                </div>
+            </div>
+            <div class="evento-card">
+                <div class="evento-img"><i class="fas fa-fire"></i></div>
+                <div class="evento-info">
+                    <h3>SÁBADO</h3>
+                    <p>A maior festa da Barra</p>
+                    <a href="index.html#eventos" class="evento-btn">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section class="diferenciais-section" id="diferenciais">
+        <div class="section-header">
+            <h2 style="color: #000;">POR QUE VITRINNI?</h2>
+            <p style="color: #000; opacity: 0.9;">Mais de 10 anos criando momentos inesquecíveis</p>
+        </div>
+        <div class="diferenciais-grid">
+            <div class="diferencial-item">
+                <i class="fas fa-cocktail"></i>
+                <h4>BAR PREMIUM</h4>
+                <p>Drinks autorais e carta exclusiva</p>
+            </div>
+            <div class="diferencial-item">
+                <i class="fas fa-utensils"></i>
+                <h4>GASTRONOMIA</h4>
+                <p>Culinária japonesa e petiscos</p>
+            </div>
+            <div class="diferencial-item">
+                <i class="fas fa-music"></i>
+                <h4>DJS RENOMADOS</h4>
+                <p>A melhor música toda semana</p>
+            </div>
+            <div class="diferencial-item">
+                <i class="fas fa-shield-alt"></i>
+                <h4>SEGURANÇA</h4>
+                <p>Ambiente monitorado 24h</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aniversários -->
+    <section class="aniversario-section" id="aniversario">
+        <div class="aniversario-content">
+            <h2>COMEMORE SEU ANIVERSÁRIO</h2>
+            <p>Benefícios exclusivos para você e suas amigas</p>
+            <div class="benefits-list">
+                <div class="benefit">
+                    <i class="fas fa-users"></i>
+                    <h5>LISTA VIP</h5>
+                    <p>Entrada grátis</p>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-cocktail"></i>
+                    <h5>DRINKS</h5>
+                    <p>Cortesia especial</p>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-birthday-cake"></i>
+                    <h5>PARABÉNS</h5>
+                    <p>Momento especial</p>
+                </div>
+            </div>
+            <a href="aniversario.html" class="hero-cta">SAIBA MAIS</a>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-final">
+        <h2>VIVA A NOITE</h2>
+        <p>Venha conhecer o melhor da Barra da Tijuca</p>
+        <a href="https://api.whatsapp.com/send?phone=5521995382032" class="hero-cta">
+            <i class="fab fa-whatsapp"></i> FALE CONOSCO
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="modern-footer">
+        <div class="footer-social">
+            <a href="https://instagram.com/vitrinni_oficial"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/vitrinnioficial"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p style="margin-top: 30px; color: #666;">Av. Armando Lombardi 421 - Barra da Tijuca - RJ</p>
+        <p style="margin-top: 15px; color: #666;">© 2026 Vitrinni Lounge. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+        // Smooth scroll
+        $('a[href^="#"]').on('click', function(e) {
+            e.preventDefault();
+            var target = $(this).attr('href');
+            if(target !== "#") {
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 80
+                }, 600);
+            }
+        });
+    </script>
+</body>
+</html>

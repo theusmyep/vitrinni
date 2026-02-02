@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# Git Hook: Pre-Commit
+# Verifica se há imagens/vídeos não otimizados antes do commit
+#
+
+echo "🔍 Verificando otimização de arquivos..."
+
+# Verificar se há JPG/PNG sem WebP correspondente
+HAS_UNOPTIMIZED=0
+
+for img in $(git diff --cached --name-only --diff-filter=A | grep -E '\.(jpg|jpeg|png)$'); do
+    # Pular ícones e favicons
+    if [[ "$img" =~ (favicon|icon|apple-icon|android-icon|ms-icon) ]]; then
+        continue
+    fi
+
+    # Verificar se existe WebP correspondente
+    webp="${img%.*}.webp"
+    if [ ! -f "$webp" ]; then
+        echo "⚠️  AVISO: $img não tem versão WebP!"
+        HAS_UNOPTIMIZED=1
+    fi
+done
+
+# Verificar se há MP4 sem WebM correspondente
+for video in $(git diff --cached --name-only --diff-filter=A | grep -E '\.mp4$'); do
+    webm="${video%.*}.webm"
+    if [ ! -f "$webm" ]; then
+        echo "⚠️  AVISO: $video não tem versão WebM!"
+        HAS_UNOPTIMIZED=1
+    fi
+done
+
+if [ $HAS_UNOPTIMIZED -eq 1 ]; then
+    echo ""
+    echo "❌ Há arquivos não otimizados!"
+    echo ""
+    echo "Execute para otimizar:"
+    echo "  ./auto-optimize.sh"
+    echo ""
+    echo "Ou force o commit ignorando esta verificação:"
+    echo "  git commit --no-verify"
+    echo ""
+    exit 1
+fi
+
+echo "✅ Todos os arquivos estão otimizados!"
+exit 0

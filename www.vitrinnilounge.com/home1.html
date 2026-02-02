@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrinni Lounge - Exclusividade na Barra da Tijuca</title>
+    <link rel="stylesheet" href="css/theme-vendors.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/slick.css">
+    <link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+        
+        /* Hero Halfscreen */
+        .hero-minimal {
+            height: 60vh; min-height: 500px; max-height: 700px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; overflow: hidden;
+            background: #000;
+        }
+        .hero-bg-item {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out;
+        }
+        .hero-bg-item.active {
+            opacity: 1;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+        .hero-content {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%;
+        }
+        .cta-minimal {
+            display: inline-block; padding: 18px 50px; 
+            border: 2px solid #D4AF37; color: #D4AF37;
+            text-decoration: none; letter-spacing: 3px; font-size: 12px;
+            text-transform: uppercase; transition: all 0.4s;
+        }
+        .cta-minimal:hover {
+            background: #D4AF37; color: #000; transform: translateY(-3px);
+        }
+        
+        /* Seções */
+        section { padding: 120px 60px; }
+        .section-title {
+            font-size: 48px; font-weight: 100; text-align: center;
+            margin-bottom: 80px; letter-spacing: 10px; color: #D4AF37;
+        }
+        
+        /* Sobre */
+        .about-content {
+            max-width: 800px; margin: 0 auto; text-align: center;
+            font-size: 20px; line-height: 2; font-weight: 300; color: #ccc;
+        }
+        
+        /* Experiência */
+        .experience-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 60px; max-width: 1200px; margin: 0 auto;
+        }
+        .exp-item {
+            text-align: center; padding: 60px 40px;
+            border: 1px solid rgba(212,175,55,0.2);
+            transition: all 0.4s;
+        }
+        .exp-item:hover {
+            background: rgba(212,175,55,0.05);
+            border-color: #D4AF37;
+            transform: translateY(-10px);
+        }
+        .exp-icon {
+            font-size: 48px; color: #D4AF37; margin-bottom: 30px;
+        }
+        .exp-title {
+            font-size: 24px; margin-bottom: 20px; letter-spacing: 2px;
+        }
+        .exp-desc {
+            font-size: 14px; color: #999; line-height: 1.8;
+        }
+        
+        /* Localização */
+        .location-content {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
+            max-width: 1200px; margin: 0 auto; align-items: center;
+        }
+        .location-info h3 {
+            font-size: 36px; margin-bottom: 30px; color: #D4AF37;
+        }
+        .location-info p {
+            font-size: 18px; line-height: 2; color: #ccc; margin-bottom: 40px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 80px 60px; background: #000;
+            border-top: 1px solid rgba(212,175,55,0.2);
+            text-align: center; font-size: 12px; letter-spacing: 2px;
+            color: #666;
+        }
+        
+        /* Programação Section */
+        .section-modern {
+            padding: 100px 20px;
+            background: #000000;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title-modern {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #D4AF37;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Event Cards */
+        .eventos-section .event-card {
+            flex: 0 0 auto;
+            width: calc(33.333% - 20px);
+            min-width: 320px;
+            max-width: 450px;
+        }
+
+        .eventos-section .event-card .tilt-box img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .eventos-section .event-card h5 {
+            font-size: 22px !important;
+            margin-bottom: 8px !important;
+            color: #FFFFFF !important;
+        }
+
+        .eventos-section .event-card .alt-font {
+            font-size: 16px !important;
+            line-height: 1.5 !important;
+            color: #FFFFFF !important;
+        }
+
+        .event-day-of-week {
+            font-size: 0.9em !important;
+            color: #FFFFFF !important;
+        }
+
+        .row.align-items-end {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Location Section */
+        .location-modern {
+            background: #000000;
+            padding: 100px 20px;
+        }
+
+        .location-modern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .location-modern-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+        }
+
+        .location-modern-card h3 {
+            color: #D4AF37;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .location-modern-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .location-modern-card a {
+            color: #D4AF37;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .location-modern-card a:hover {
+            color: #B8941F;
+        }
+
+        /* Footer Modern */
+        .footer-modern {
+            background: #000000;
+            padding: 80px 20px 40px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-modern-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-modern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-modern-col h4 {
+            color: #D4AF37;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-modern-col p,
+        .footer-modern-col a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-modern-col a:hover {
+            color: #D4AF37;
+        }
+
+        .footer-modern-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-modern-social a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-modern-social a:hover {
+            background: #D4AF37;
+            color: #000000;
+        }
+
+        .footer-modern-copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer-modern-copyright a {
+            color: #D4AF37;
+            text-decoration: none;
+        }
+
+        .footer-modern-copyright a:hover {
+            color: #B8941F;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero-minimal { height: 50vh; min-height: 400px; }
+            .experience-grid { grid-template-columns: 1fr; gap: 40px; }
+            .location-content { grid-template-columns: 1fr; gap: 40px; }
+            .location-modern-grid { grid-template-columns: 1fr; }
+            .footer-modern-grid { grid-template-columns: 1fr; }
+            section { padding: 60px 20px; }
+            .section-title-modern { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            .eventos-section .event-card {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body data-mobile-nav-style="classic">
+
+    <a href="https://api.whatsapp.com/send?phone=5521995382032" class="float" target="_blank">
+        <i class="fab fa-whatsapp my-float"></i>
+    </a>
+
+    <!-- start header -->
+    <header>
+        <!-- start navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent header-light fixed-top navbar-boxed header-reverse-scroll">
+            <div class="container-fluid nav-header-container">
+                <div class="col-auto col-sm-6 col-lg-2 me-auto ps-lg-0">
+                    <a class="navbar-brand" href="index.html">
+                        <picture>
+                    <source srcset="images/logo_home.webp" type="image/webp">
+                    <img src="images/logo_home.png" data-at2x="images/logo_home.png" class="default-logo" alt="">
+                </picture>
+                        <picture>
+                    <source srcset="images/logo_home.webp" type="image/webp">
+                    <img src="images/logo_home.png" data-at2x="images/logo_home.png" class="alt-logo" alt="">
+                </picture>
+                        <picture>
+                    <source srcset="images/logo_home.webp" type="image/webp">
+                    <img src="images/logo_home.png" data-at2x="images/logo_home.png" class="mobile-logo" alt="">
+                </picture>
+                    </a>
+                </div>
+
+                <div class="col-auto col-lg-8 menu-order px-lg-0">
+                    <button class="navbar-toggler float-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav alt-font">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#programacao" class="nav-link">Programação</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="aniversario.html" class="nav-link">Aniversário</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="camarotes.html" class="nav-link">Camarotes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="vitrinni.html" class="nav-link">Vitrinni</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="corporativos.html" class="nav-link">Eventos Corporativos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="normas.html" class="nav-link">Normas e Restrições</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Botão WhatsApp no header -->
+                <!-- Desktop: botão verde cheio, sempre o último item à direita -->
+                <div class="col-auto d-none d-lg-block">
+                    <a href="https://api.whatsapp.com/send?phone=5521995382032" target="_blank"
+                       class="btn btn-small text-uppercase"
+                       style="background-color:#25D366; color:#ffffff; font-weight:600; border-radius:30px; padding:10px 22px; letter-spacing:1px; border:none;">
+                        <i class="fab fa-whatsapp margin-10px-right"></i>WhatsApp
+                    </a>
+                </div>
+
+                <!-- Mobile: apenas ícone verde com texto WhatsApp -->
+                <div class="col-auto d-lg-none">
+                    <a href="https://api.whatsapp.com/send?phone=5521995382032" target="_blank"
+                       class="btn btn-small"
+                       style="background-color:#25D366; color:#ffffff; font-weight:600; border-radius:30px; padding:8px 16px; border:none;">
+                        <i class="fab fa-whatsapp margin-10px-right"></i>WhatsApp
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- end header -->
+
+    <!-- Hero -->
+    <section class="hero-minimal">
+        <!-- Background Slideshow -->
+        <img src="images/casabg.webp" class="hero-bg-item active" alt="Vitrinni">
+        <picture>
+                    <source srcset="images/hero-slide2.webp" type="image/webp">
+                    <img src="images/hero-slide2.jpg" class="hero-bg-item" alt="Vitrinni">
+                </picture>
+        <video class="hero-bg-item" autoplay muted loop playsinline>
+            <source src="videos/vitrinni-background.webm" type="video/webm">
+            <source src="videos/vitrinni-background.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content" style="position: relative; z-index: 2;">
+            <a href="#programacao" class="cta-minimal">Ver Programação</a>
+        </div>
+    </section>
+
+    <!-- Programação -->
+    <section class="section-modern" id="programacao">
+        <div class="section-container">
+            <h2 class="section-title">PROGRAMAÇÃO</h2>
+            <p style="text-align: center; color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Confira nossa programação semanal com atrações incríveis. Todos os dias uma experiência única te espera na Vitrinni Lounge. Atrações de peso, som e iluminação de última geração.
+            </p>
+            <div id="eventos" class="eventos-section">
+                <div class="row align-items-end">
+                    <!-- Eventos dinâmicos serão inseridos aqui pelo events-manager.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre">
+        <h2 class="section-title">SOBRE</h2>
+        <div class="about-content">
+            <p>
+                Mais de 10 anos criando experiências inesquecíveis no coração da Barra da Tijuca.
+                A Vitrinni Lounge é sinônimo de sofisticação, onde cada detalhe é pensado para
+                proporcionar noites memoráveis em um ambiente exclusivo.
+            </p>
+        </div>
+    </section>
+
+    <!-- Experiência -->
+    <section id="experiencia" style="background: rgba(212,175,55,0.03);">
+        <h2 class="section-title">EXPERIÊNCIA</h2>
+        <div class="experience-grid">
+            <div class="exp-item">
+                <div class="exp-icon"><i class="fas fa-music"></i></div>
+                <h3 class="exp-title">MÚSICA</h3>
+                <p class="exp-desc">Shows ao vivo com os artistas mais estourados do país</p>
+            </div>
+            <div class="exp-item">
+                <div class="exp-icon"><i class="fas fa-cocktail"></i></div>
+                <h3 class="exp-title">DRINKS</h3>
+                <p class="exp-desc">Carta premium com drinks autorais e seleção exclusiva</p>
+            </div>
+            <div class="exp-item">
+                <div class="exp-icon"><i class="fas fa-utensils"></i></div>
+                <h3 class="exp-title">GASTRONOMIA</h3>
+                <p class="exp-desc">Culinária japonesa e petiscos sofisticados</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Localização -->
+    <section class="location-modern" id="localizacao">
+        <div class="section-container">
+            <h2 class="section-title">LOCALIZAÇÃO</h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="location-modern-card">
+                    <h3>Vitrinni Rio de Janeiro</h3>
+                    <p><strong>Endereço:</strong><br>Av Armando Lombardi 421<br>Barra da Tijuca<br>Rio de Janeiro - RJ</p>
+                    <p><strong>Horário de Funcionamento:</strong><br>Quinta a Domingo: 22h às 04h</p>
+                    <p><strong>Atendimento WhatsApp:</strong><br>Segunda a Domingo: 10h às 02h</p>
+                    <a href="https://api.whatsapp.com/send?phone=5521995382032" target="_blank">
+                        <i class="fab fa-whatsapp"></i> (21) 99538-2032
+                    </a>
+
+                    <div style="margin-top: 40px;">
+                        <a href="https://www.waze.com/ul?ll=-23.00692994%2C-43.31207514&navigate=yes&zoom=17" target="_blank"
+                           style="display: block; background: #33CCFF; color: #000; padding: 20px; border-radius: 10px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; text-align: center; font-size: 18px;">
+                            <i class="fab fa-waze" style="margin-right: 15px; font-size: 24px; vertical-align: middle;"></i>ABRIR NO WAZE
+                        </a>
+                        <a href="https://m.uber.com/ul/?client_id=WN_WM5dh-j9OPWM9vE9lRiSTivgGP0HB&action=setPickup&pickup=my_location&dropoff[latitude]=-23.0070248&dropoff[longitude]=-43.312717&dropoff[nickname]=Vitrinni%20Lounge%20Beer&dropoff[formatted_address]=Av%20Armando%20Lombardi,%20421%20-%20Barra%20da%20Tijuca%20Rio%20-%20de%20Janeiro" target="_blank"
+                           style="display: block; background: #000000; color: #fff; padding: 20px; border-radius: 10px; text-decoration: none; font-weight: 700; text-transform: none; letter-spacing: 1px; text-align: center; font-size: 20px;">
+                            <i class="fab fa-uber" style="margin-right: 15px; font-size: 24px; vertical-align: middle;"></i>Chamar Uber
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="footer-modern-content">
+            <div class="footer-modern-grid">
+                <div class="footer-modern-col">
+                    <h4>Vitrinni Rio de Janeiro</h4>
+                    <p>Av Armando Lombardi 421<br>Barra da Tijuca<br>Rio de Janeiro - RJ</p>
+                    <a href="https://api.whatsapp.com/send?phone=5521995382032">
+                        <i class="fab fa-whatsapp"></i> (21) 99538-2032
+                    </a>
+                    <div class="footer-modern-social">
+                        <a href="https://www.facebook.com/vitrinnioficial" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/vitrinniloungerj/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-modern-col">
+                    <h4>Como Chegar</h4>
+                    <a href="https://www.waze.com/ul?ll=-23.00692994%2C-43.31207514&navigate=yes&zoom=17" target="_blank">
+                        <i class="fas fa-map-marked-alt"></i> Abrir no Waze
+                    </a>
+                    <a href="https://m.uber.com/ul/?client_id=WN_WM5dh-j9OPWM9vE9lRiSTivgGP0HB&action=setPickup&pickup=my_location&dropoff[latitude]=-23.0070248&dropoff[longitude]=-43.312717&dropoff[nickname]=Vitrinni%20Lounge%20Beer&dropoff[formatted_address]=Av%20Armando%20Lombardi,%20421%20-%20Barra%20da%20Tijuca%20Rio%20-%20de%20Janeiro" target="_blank">
+                        <i class="fas fa-car"></i> Chamar Uber
+                    </a>
+                    <a href="https://www.google.com/maps/place/Vitrinni+Lounge+Beer/@-23.0069299,-43.3120751,17z" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> Ver no Google Maps
+                    </a>
+                </div>
+                <div class="footer-modern-col">
+                    <h4>Links Rápidos</h4>
+                    <a href="index.html">Home</a>
+                    <a href="#programacao">Programação</a>
+                    <a href="aniversario.html">Aniversário</a>
+                    <a href="camarotes.html">Camarotes</a>
+                    <a href="vitrinni.html">Vitrinni</a>
+                    <a href="normas.html">Normas e Restrições</a>
+                </div>
+            </div>
+            <div class="footer-modern-copyright">
+                <p>© 2026 Vitrinni Lounge. Desenvolvido por <a href="https://www.instagram.com/theusm" target="_blank">@theusm</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/theme-vendors.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/events-manager.js"></script>
+    <script>
+        // Smooth scroll
+        $('a[href^="#"]').on('click', function(e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $($(this).attr('href')).offset().top - 100
+            }, 800);
+        });
+
+        // Hero Background Slideshow
+        let currentSlide = 0;
+        let slideTimeout;
+        const slides = document.querySelectorAll('.hero-bg-item');
+        const totalSlides = slides.length;
+
+        function changeSlide() {
+            // Remove active da slide atual
+            slides[currentSlide].classList.remove('active');
+
+            // Se a slide atual é um vídeo, pausar e resetar
+            const currentElement = slides[currentSlide];
+            if (currentElement.tagName === 'VIDEO') {
+                currentElement.pause();
+                currentElement.currentTime = 0;
+            }
+
+            // Próxima slide
+            currentSlide = (currentSlide + 1) % totalSlides;
+
+            // Adiciona active na nova slide
+            const newSlide = slides[currentSlide];
+            newSlide.classList.add('active');
+
+            // Configurar próxima troca baseado no tipo de slide
+            if (newSlide.tagName === 'VIDEO') {
+                // Se for vídeo, tocar e trocar quando terminar
+                newSlide.currentTime = 0;
+                newSlide.play().catch(function(error) {
+                    console.log('Autoplay bloqueado:', error);
+                    // Se falhar, trocar após 5 segundos
+                    slideTimeout = setTimeout(changeSlide, 5000);
+                });
+
+                // Listener para trocar quando o vídeo terminar
+                newSlide.onended = function() {
+                    changeSlide();
+                };
+            } else {
+                // Se for imagem, trocar após 10 segundos
+                slideTimeout = setTimeout(changeSlide, 10000);
+            }
+        }
+
+        // Inicializar slideshow
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar todos os vídeos
+            const videos = document.querySelectorAll('.hero-bg-item video, video.hero-bg-item');
+            videos.forEach(function(video) {
+                video.volume = 0;
+                video.muted = true;
+            });
+
+            // Iniciar slideshow após 10 segundos na primeira imagem
+            slideTimeout = setTimeout(changeSlide, 10000);
+        });
+
+        // Inicializar eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventsManager = new VitrinniEventsManager();
+            eventsManager.init();
+        });
+    </script>
+</body>
+</html>
