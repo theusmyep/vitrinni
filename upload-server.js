@@ -5,20 +5,65 @@
  * Salva diretamente na pasta /eventos/
  *
  * USO: node upload-server.js
+ *
+ * Login admin: configure ADMIN_USER e ADMIN_PASSWORD no .env (ou variáveis de ambiente).
+ * A senha NUNCA fica no HTML/JS – só no servidor.
  */
+
+try { require('dotenv').config(); } catch (e) { /* dotenv opcional */ }
 
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = 3000;
 
 // ========================================
-// CONFIGURAÇÕES
+// CONFIGURAÇÕES (senha NUNCA no código – só em variáveis de ambiente)
 // ========================================
+
+// Senha só no servidor (nunca no HTML/JS). Em produção use .env com senha forte.
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'vitrinni@@eventos';
+const ADMIN_SECRET = process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD || 'vitrinni-secret-mude-em-producao';
+const TOKEN_VALID_HOURS = 24;
+
+const authEnabled = Boolean(ADMIN_PASSWORD);
+
+function createToken(user) {
+    const expiry = Date.now() + TOKEN_VALID_HOURS * 60 * 60 * 1000;
+    const payload = `${expiry}.${user}`;
+    const sig = crypto.createHmac('sha256', ADMIN_SECRET).update(payload).digest('hex');
+    return Buffer.from(`${payload}.${sig}`).toString('base64');
+}
+
+function validateToken(token) {
+    if (!token) return false;
+    try {
+        const decoded = Buffer.from(token, 'base64').toString();
+        const [expiryStr, user, sig] = decoded.split('.');
+        const expiry = parseInt(expiryStr, 10);
+        if (Date.now() > expiry) return false;
+        const expected = crypto.createHmac('sha256', ADMIN_SECRET).update(`${expiryStr}.${user}`).digest('hex');
+        return sig === expected && user === ADMIN_USER;
+    } catch (e) {
+        return false;
+    }
+}
+
+function requireAuth(req, res, next) {
+    if (!authEnabled) return next();
+    const auth = req.headers.authorization;
+    const token = auth && auth.startsWith('Bearer ') ? auth.slice(7) : null;
+    if (!validateToken(token)) {
+        return res.status(401).json({ success: false, error: 'Não autorizado. Faça login na página de admin.' });
+    }
+    next();
+}
 
 // Habilitar CORS (permite acesso de qualquer origem)
 app.use(cors());
@@ -79,7 +124,10 @@ app.get('/', (req, res) => {
         status: 'online',
         message: 'Servidor de upload Vitrinni',
         version: '1.0.0',
+        authEnabled: authEnabled,
         endpoints: {
+            login: 'POST /admin-login',
+            check: 'GET /admin-check',
             upload: 'POST /upload',
             list: 'GET /eventos',
             delete: 'DELETE /eventos/:filename'
@@ -87,8 +135,30 @@ app.get('/', (req, res) => {
     });
 });
 
-// Upload de banner
-app.post('/upload', upload.single('banner'), (req, res) => {
+// Login admin (senha só no servidor, nunca no HTML/JS)
+app.post('/admin-login', express.json(), (req, res) => {
+    if (!authEnabled) {
+        return res.json({ success: true, token: createToken(ADMIN_USER), message: 'Auth desativada (sem ADMIN_PASSWORD)' });
+    }
+    const user = (req.body && req.body.user) || '';
+    const password = (req.body && req.body.password) || '';
+    if (user !== ADMIN_USER || password !== ADMIN_PASSWORD) {
+        return res.status(401).json({ success: false, error: 'Usuário ou senha incorretos' });
+    }
+    const token = createToken(user);
+    res.json({ success: true, token });
+});
+
+// Verificar se o token ainda é válido (para a página admin)
+app.get('/admin-check', (req, res) => {
+    const auth = req.headers.authorization;
+    const token = auth && auth.startsWith('Bearer ') ? auth.slice(7) : null;
+    if (!authEnabled) return res.json({ valid: true });
+    res.json({ valid: validateToken(token) });
+});
+
+// Upload de banner (protegido quando ADMIN_PASSWORD está definido)
+app.post('/upload', requireAuth, upload.single('banner'), (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({
@@ -123,7 +193,7 @@ app.post('/upload', upload.single('banner'), (req, res) => {
     }
 });
 
-app.post('/events-json', (req, res) => {
+app.post('/events-json', requireAuth, (req, res) => {
     try {
         const payload = req.body;
 
@@ -161,7 +231,7 @@ app.post('/events-json', (req, res) => {
     }
 });
 
-app.post('/event-page', (req, res) => {
+app.post('/event-page', requireAuth, (req, res) => {
     try {
         const payload = req.body;
 
@@ -342,9 +412,16 @@ app.listen(PORT, () => {
     console.log(`✓ Servidor rodando em: http://localhost:${PORT}`);
     console.log(`✓ Pasta de uploads: ${EVENTOS_DIR}`);
     console.log('\nEndpoints disponíveis:');
+    console.log(`  POST   http://localhost:${PORT}/admin-login  (login admin)`);
+    console.log(`  GET    http://localhost:${PORT}/admin-check  (validar token)`);
     console.log(`  POST   http://localhost:${PORT}/upload`);
     console.log(`  GET    http://localhost:${PORT}/eventos`);
     console.log(`  DELETE http://localhost:${PORT}/eventos/:filename`);
+    if (authEnabled) {
+        console.log('\n🔐 Login admin ATIVO (ADMIN_PASSWORD definido). Upload e eventos exigem token.');
+    } else {
+        console.log('\n⚠️  Login admin DESATIVADO. Defina ADMIN_PASSWORD no .env para proteger a página admin.');
+    }
     console.log('\n💡 Para parar o servidor: Ctrl+C');
     console.log('='.repeat(50) + '\n');
 });

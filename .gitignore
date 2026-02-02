@@ -9,6 +9,9 @@ backup_originals_*
 # Node modules (se usar)
 node_modules/
 
+# Senha do admin (NUNCA commitar)
+.env
+
 # Logs
 *.log
 npm-debug.log*

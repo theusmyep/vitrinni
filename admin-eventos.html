@@ -347,6 +347,26 @@
 </head>
 <body>
     <div class="container">
+        <!-- Tela de login (senha nunca fica no HTML – validação no servidor) -->
+        <div id="loginBox" class="card" style="max-width: 400px; margin: 60px auto;">
+            <h2>🔐 Acesso Admin</h2>
+            <p class="helper-text" style="margin-bottom: 20px;">Entre com usuário e senha para gerenciar eventos.</p>
+            <form id="formLogin">
+                <div class="form-group">
+                    <label>Usuário</label>
+                    <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+            <p id="loginError" class="helper-text" style="color: #c53030; margin-top: 10px; display: none;"></p>
+        </div>
+
+        <!-- Conteúdo admin (só visível após login) -->
+        <div id="adminContent" style="display: none;">
         <div class="header">
             <h1>⚙️ Painel Administrativo - Eventos Vitrinni</h1>
             <p>Gerencie eventos de forma simples e rápida</p>
@@ -358,6 +378,9 @@
             <button onclick="limparCache()" style="background: #ff9800; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 13px;">
                 🧹 Limpar Cache do Navegador
             </button>
+            <button onclick="sairAdmin()" style="background: #718096; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 13px; margin-left: 8px;">
+                🔒 Sair
+            </button>
         </div>
 
         <div class="cards">
@@ -365,30 +388,7 @@
             <div class="card">
                 <h2>➕ Criar Novo Evento</h2>
                 <form id="formNovoEvento">
-                    <div class="form-group">
-                        <label>Nome do Evento *</label>
-                        <input type="text" id="eventoNome" placeholder="Ex: VICRIME" required>
-                        <div class="helper-text">Em MAIÚSCULAS</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Data do Evento *</label>
-                        <input type="date" id="eventoData" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Horário de Início *</label>
-                        <input type="time" id="eventoHora" value="23:00" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Filial *</label>
-                        <select id="eventoFilial" required>
-                            <option value="rj">Rio de Janeiro</option>
-                            <option value="sp">São Paulo</option>
-                        </select>
-                    </div>
-
+                    <!-- Banner em primeiro: arte geralmente vem como [SITE]vertical-nomeEvento_DD.MM.png -->
                     <div class="form-group">
                         <label>Banner do Evento *</label>
 
@@ -397,7 +397,7 @@
                             <input type="file" id="bannerFile" class="file-input" accept="image/*">
                             <div class="upload-icon">📁</div>
                             <p><strong>Clique ou arraste a imagem aqui</strong></p>
-                            <p class="helper-text">JPG, PNG ou GIF (máx 5MB)</p>
+                            <p class="helper-text">JPG, PNG ou GIF (máx 5MB). Ex: [SITE]vertical-vitrinniClub_03.02.png</p>
                         </div>
 
                         <!-- Preview da Imagem -->
@@ -418,6 +418,31 @@
                             </button>
                         </div>
                         <div class="helper-text">Upload: Salva em /eventos/ | Base64: Código grande (emergência)</div>
+                        <p class="helper-text" id="uploadServerStatus" style="margin-top: 8px;"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome do Evento *</label>
+                        <input type="text" id="eventoNome" placeholder="Ex: VICRIME (preenchido pelo nome do arquivo)" required>
+                        <div class="helper-text">Em MAIÚSCULAS — preenchido automaticamente se o arquivo tiver nome no padrão (ex: vitrinniClub → Vitrinni Club)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data do Evento *</label>
+                        <input type="date" id="eventoData" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Horário de Início *</label>
+                        <input type="time" id="eventoHora" value="23:00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Filial *</label>
+                        <select id="eventoFilial" required>
+                            <option value="rj">Rio de Janeiro</option>
+                            <option value="sp">São Paulo</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -470,9 +495,77 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
     <script>
+        const UPLOAD_SERVER_URL = 'http://localhost:3000';
+        const AUTH_TOKEN_KEY = 'vitrinni_admin_token';
+
+        function getAuthHeader() {
+            const token = sessionStorage.getItem(AUTH_TOKEN_KEY);
+            return token ? { Authorization: 'Bearer ' + token } : {};
+        }
+
+        async function checkAuth() {
+            const token = sessionStorage.getItem(AUTH_TOKEN_KEY);
+            if (!token) return false;
+            try {
+                const r = await fetch(UPLOAD_SERVER_URL + '/admin-check', { headers: getAuthHeader() });
+                const data = await r.json();
+                return data.valid === true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function showAdmin(show) {
+            document.getElementById('loginBox').style.display = show ? 'none' : 'block';
+            document.getElementById('adminContent').style.display = show ? 'block' : 'none';
+        }
+
+        async function initAuth() {
+            const valid = await checkAuth();
+            showAdmin(valid);
+            if (valid) {
+                carregarEventos();
+                verificarServidorUpload();
+            }
+        }
+
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = document.getElementById('loginUser').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errEl = document.getElementById('loginError');
+            errEl.style.display = 'none';
+            try {
+                const r = await fetch(UPLOAD_SERVER_URL + '/admin-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user, password })
+                });
+                const data = await r.json();
+                if (data.success && data.token) {
+                    sessionStorage.setItem(AUTH_TOKEN_KEY, data.token);
+                    showAdmin(true);
+                    carregarEventos();
+                    verificarServidorUpload();
+                } else {
+                    errEl.textContent = data.error || 'Usuário ou senha incorretos';
+                    errEl.style.display = 'block';
+                }
+            } catch (err) {
+                errEl.textContent = 'Servidor offline. Inicie com: npm start';
+                errEl.style.display = 'block';
+            }
+        });
+
+        function sairAdmin() {
+            sessionStorage.removeItem(AUTH_TOKEN_KEY);
+            showAdmin(false);
+        }
+
         let eventos = [];
         let bannerData = null; // Armazena dados do banner (base64 ou URL)
         let bannerType = 'none'; // 'base64', 'server', ou 'none'
@@ -519,6 +612,42 @@
             }
         });
 
+        // Preencher formulário a partir do nome do arquivo (ex: [SITE]vertical-vitrinniClub_03.02.png)
+        function preencherFormularioPeloNomeArquivo(filename) {
+            const base = filename.replace(/\.[^.]+$/, ''); // remove extensão
+
+            // Data: _DD.MM ou DD.MM no nome (ex: _03.02 ou 03.02)
+            const dateMatch = base.match(/_(\d{1,2})\.(\d{1,2})(?:_|$)/) || base.match(/(\d{2})\.(\d{2})/);
+            if (dateMatch) {
+                const day = String(dateMatch[1]).padStart(2, '0');
+                const month = String(dateMatch[2]).padStart(2, '0');
+                const year = new Date().getFullYear();
+                document.getElementById('eventoData').value = `${year}-${month}-${day}`;
+            }
+
+            // Filial: sempre Rio de Janeiro
+            document.getElementById('eventoFilial').value = 'rj';
+
+            // Nome do evento: parte do nome que começa com "vi" (ex: vitrinniClub → Vitrinni Club, vicrime → VICRIME)
+            const viMatch = base.match(/(vi[a-zA-Z0-9]*)/i);
+            if (viMatch) {
+                const namePart = viMatch[1];
+                let displayName;
+                if (namePart.length <= 8 && namePart === namePart.toLowerCase()) {
+                    displayName = namePart.toUpperCase(); // vicrime → VICRIME
+                } else {
+                    // camelCase: vitrinniClub → Vitrinni Club (espaço antes de maiúscula, capitalizar)
+                    displayName = namePart
+                        .replace(/([A-Z])/g, ' $1')
+                        .trim()
+                        .split(' ')
+                        .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                        .join(' ');
+                }
+                document.getElementById('eventoNome').value = displayName;
+            }
+        }
+
         // Processar arquivo selecionado
         function handleFileSelect(file) {
             // Validar tipo
@@ -532,6 +661,9 @@
                 alert('❌ Imagem muito grande! Máximo 5MB');
                 return;
             }
+
+            // Preencher Data, Filial e Nome do evento a partir do nome do arquivo
+            preencherFormularioPeloNomeArquivo(file.name);
 
             // Mostrar preview
             const reader = new FileReader();
@@ -581,8 +713,9 @@
                 formData.append('banner', bannerData.file);
 
                 // Fazer upload
-                const response = await fetch('http://localhost:3000/upload', {
+                const response = await fetch(UPLOAD_SERVER_URL + '/upload', {
                     method: 'POST',
+                    headers: getAuthHeader(),
                     body: formData
                 });
 
@@ -642,6 +775,21 @@
         // ========================================
         // FIM DO UPLOAD DE BANNER
         // ========================================
+
+        // Verificar se o servidor de upload está online (porta 3000)
+        async function verificarServidorUpload() {
+            const el = document.getElementById('uploadServerStatus');
+            if (!el) return;
+            try {
+                const r = await fetch(UPLOAD_SERVER_URL, { method: 'GET', mode: 'cors' });
+                const data = await r.json();
+                el.innerHTML = '🟢 Servidor de upload <strong>online</strong> (porta 3000).';
+                el.style.color = '#22543d';
+            } catch (e) {
+                el.innerHTML = '🔴 Servidor de upload <strong>offline</strong>. Para o botão "Fazer Upload" funcionar, abra um terminal na pasta do projeto e rode: <code>npm start</code> ou <code>node upload-server.js</code>';
+                el.style.color = '#c53030';
+            }
+        }
 
         // Carregar eventos do localStorage E do arquivo JSON
         async function carregarEventos() {
@@ -978,10 +1126,11 @@
             }
 
             try {
-                const response = await fetch('http://localhost:3000/events-json', {
+                const response = await fetch(UPLOAD_SERVER_URL + '/events-json', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
                     },
                     body: JSON.stringify(payload)
                 });
@@ -1015,10 +1164,11 @@
                     bannerUrl: evento.bannerHome || evento.bannerEvent
                 };
 
-                const response = await fetch('http://localhost:3000/event-page', {
+                const response = await fetch(UPLOAD_SERVER_URL + '/event-page', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
                     },
                     body: JSON.stringify(payload)
                 });
@@ -1102,8 +1252,8 @@
             return d.toLocaleDateString('pt-BR');
         }
 
-        // Carregar ao iniciar
-        carregarEventos();
+        // Iniciar: verificar login e mostrar admin ou tela de login
+        initAuth();
     </script>
 </body>
 </html>
