@@ -1,0 +1,764 @@
+<!doctype html>
+<html class="no-js" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Black Luv - 04/02/2026 - Vitrinni Lounge Beer</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Black Luv na Vitrinni Lounge Beer - 04/02/2026 às 23:00">
+    <meta name="keywords" content="VICRIME, Vitrinni Lounge, evento, festa, Rio de Janeiro">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/font-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/theme-vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+
+    <style>
+        /* Header com fundo para melhor visibilidade */
+        header {
+            background: rgba(255, 255, 255, 0.98) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header.header-appear {
+            background: white !important;
+        }
+
+        /* Menu mobile */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: white;
+                padding: 20px;
+                margin-top: 15px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+            .navbar-collapse.show {
+                display: block !important;
+            }
+
+            .navbar-nav {
+                display: block !important;
+            }
+
+            .navbar-nav .nav-item {
+                padding: 10px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .navbar-nav .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .navbar-toggler {
+                border: none;
+                padding: 10px;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+        }
+
+        .event-banner {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .event-info {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .event-info h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .event-info p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .list-form {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 50px 20px;
+            margin-top: 40px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-container h2 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-container p {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #1a1a1a;
+            color: #D4AF37;
+            border: 2px solid #D4AF37;
+        }
+
+        .alert-error {
+            background: #1a1a1a;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 60px 20px;
+        }
+
+        .info-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #1a1a1a;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #D4AF37;
+        }
+
+        .info-card h4 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.8;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .info-card strong {
+            color: #333;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .info-card ul li {
+            padding: 8px 0;
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-card ul li::before {
+            content: "→ ";
+            color: #D4AF37;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .atencao {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .atencao p {
+            color: #856404;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .regras {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .regras p {
+            color: #721c24;
+            margin: 5px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .whatsapp-link {
+            color: #25D366;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .whatsapp-link:hover {
+            color: #128C7E;
+            text-decoration: underline;
+        }
+
+        .promo-destaque {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #D4AF37;
+        }
+
+        .promo-destaque p {
+            color: white;
+            font-weight: 500;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .promo-destaque strong {
+            color: #D4AF37;
+            font-weight: 700;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent header-light fixed-top header-reverse-scroll">
+            <div class="container-lg nav-header-container">
+                <div class="col-auto col-sm-6 col-lg-2 me-auto ps-lg-0">
+                    <a class="navbar-brand" href="http://localhost:8080/index.html">
+                        <img src="../images/logo_home.png" data-at2x="../images/logo_home.png" class="default-logo" alt="Vitrinni">
+                        <img src="../images/logo_home.png" data-at2x="../images/logo_home.png" class="mobile-logo" alt="Vitrinni">
+                    </a>
+                </div>
+                <div class="col-auto col-lg-8 menu-order px-lg-0">
+                    <button class="navbar-toggler float-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                        <span class="navbar-toggler-line"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav alt-font">
+                            <li class="nav-item"><a href="http://localhost:8080/index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item"><a href="http://localhost:8080/index.html#eventos" class="nav-link">Programação</a></li>
+                            <li class="nav-item"><a href="../aniversario.html" class="nav-link">Aniversário</a></li>
+                            <li class="nav-item"><a href="../vitrinni.html" class="nav-link">Vitrinni</a></li>
+                            <li class="nav-item"><a href="../corporativos.html" class="nav-link">Eventos Corporativos</a></li>
+                            <li class="nav-item"><a href="../contato.html" class="nav-link">Contato</a></li>
+                            <li class="nav-item"><a href="../normas.html" class="nav-link">Normas e Restrições</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main style="margin-top: 120px; padding-bottom: 60px;">
+        <section class="container">
+            <img src="../eventos/1770142484032-[site]vertical-blackluv_04.02.png" alt="VICRIME RJ" class="event-banner">
+
+            <div class="event-info">
+                <h1>Black Luv</h1>
+                <p><strong>📅 Data:</strong> 04/02/2026 (Quarta-feira)</p>
+                <p><strong>⏰ Horário:</strong> 23:00</p>
+                <p><strong>📍 Local:</strong> Av Armando Lombardi 421, Barra da Tijuca<br>Rio de Janeiro - RJ</p>
+            </div>
+        </section>
+
+        <!-- Formulário de Lista -->
+        <section class="list-form">
+            <div class="form-container">
+                <h2>📋 Garanta seu nome na lista!</h2>
+                <p>Digite um ou mais nomes (um por linha) e aperte Enter após cada nome</p>
+
+                <div id="alertContainer"></div>
+
+                <form id="listForm">
+                    <div class="form-group">
+                        <label for="nomes">Nomes Completos *</label>
+                        <textarea id="nomes" name="nomes" placeholder="Digite cada nome completo em uma linha:&#10;&#10;Nome e Sobrenome&#10;Nome e Sobrenome&#10;Nome e Sobrenome" required autofocus></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnSubmit">
+                        ✓ Adicionar à Lista
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Informações do Evento -->
+        <section class="info-section">
+            <div class="info-container">
+                <!-- Entrada -->
+                <div class="info-card">
+                    <h3>🎟️ Entrada</h3>
+                    <h4>VALORES DE ENTRADA</h4>
+
+                    <p><strong>ATÉ 23h (com nome na lista):</strong></p>
+                    <p>FEM: <strong style="color: #D4AF37;">VIP</strong></p>
+                    <p>MASC: <strong>R$ 30,00</strong> (encerra sem aviso prévio)</p>
+
+                    <p style="margin-top: 15px;"><strong>ATÉ 23h (sem nome na lista):</strong></p>
+                    <p><strong>R$ 100,00</strong> (encerra sem aviso prévio)</p>
+
+                    <p style="margin-top: 15px;"><strong>ATÉ 00h (com nome na lista):</strong></p>
+                    <p>FEM: <strong style="color: #D4AF37;">VIP</strong></p>
+                    <p>MASC: <strong>R$ 50,00</strong> (encerra sem aviso prévio)</p>
+
+                    <div class="atencao">
+                        <p><strong>Atenção:</strong></p>
+                        <p>* Valores sujeitos a alterações sem aviso prévio</p>
+                        <p>* Coloque seu nome na lista e chegue cedo, evite filas.</p>
+                        <p>* Evento sujeito a lotação máxima.</p>
+                    </div>
+
+                    <div class="regras">
+                        <p>⚠️ É OBRIGATÓRIO A APRESENTAÇÃO DE DOCUMENTO ORIGINAL COM FOTO.</p>
+                        <p>⚠️ É PROIBIDO POR LEI A ENTRADA DE MENORES DE 18 ANOS.</p>
+                        <p>⚠️ PROIBIDA A ENTRADA DE TRAJES TRANSPARENTES, BIQUÍNI, LINGERIE E PEÇAS QUE DEIXAM AS PARTES ÍNTIMAS MUITO EXPOSTAS.</p>
+                    </div>
+                </div>
+
+                <!-- Camarotes -->
+                <div class="info-card">
+                    <h3>🏆 Camarotes</h3>
+                    <h4>Reservas</h4>
+                    <p style="margin-bottom: 15px;">Entre em contato pelo WhatsApp:</p>
+                    <a href="https://wa.me/5521998587186" class="whatsapp-link" target="_blank">
+                        📱 (21) 99858-7186
+                    </a>
+                    <br>
+                    <a href="https://wa.me/5521977524464" class="whatsapp-link" target="_blank">
+                        📱 (21) 97752-4464
+                    </a>
+                </div>
+
+                <!-- Aniversários -->
+                <div class="info-card">
+                    <h3>🎂 Aniversários</h3>
+                    <h4>Aniversariante do dia/mês</h4>
+
+                    <div class="promo-destaque">
+                        <p>Pra você e suas amigas: <strong>VIP até 00h</strong></p>
+                        <p>Homem: <strong>R$ 40,00 até 00h</strong></p>
+                    </div>
+
+                    <ul>
+                        <li><strong>5 pessoas:</strong> 5 drinks (ou 1 espumante) + petisco</li>
+                        <li><strong>10 pessoas:</strong> 1 combo smirnoff + petisco</li>
+                        <li><strong>15 pessoas:</strong> 1 combo smirnoff + 1 garrafa smirnoff + combinado de japa + 5 shots</li>
+                        <li><strong>20 pessoas:</strong> 2 combos smirnoff + 10 shots + plaquinha + combinado de japa</li>
+                    </ul>
+
+                    <div class="atencao">
+                        <p><strong>ATENÇÃO:</strong></p>
+                        <p>* A promoção só é válida dentro do mês do aniversariante e com todas as amigas presentes na lista do aniversariante!</p>
+                        <p>* As amigas devem chegar até as 00h para receber o vip.</p>
+                        <p>* APÓS 00H SERÁ COBRADO VALOR DA LISTA AMIGA PARA TODAS AS AMIGAS.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: #1a1a1a; color: white; text-align: center; padding: 30px 20px;">
+        <p style="margin: 0;">© 2026 Vitrinni Lounge Beer - Todos os direitos reservados</p>
+        <p style="margin: 10px 0 0 0;">
+            <a href="http://localhost:8080/index.html" style="color: #D4AF37; text-decoration: none;">Voltar para Home</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/vendors.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Inicializar menu mobile manualmente
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('#navbarNav');
+
+            if (navbarToggler && navbarCollapse) {
+                navbarToggler.addEventListener('click', function() {
+                    navbarCollapse.classList.toggle('show');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // Configuração do evento
+        const eventData = {
+            id: '20260204',
+            slug: 'evento-20260204-black-luv',
+            title: 'Black Luv',
+            date: '2026-02-04',
+            time: '23:00'
+        };
+
+        // Função para validar se o nome parece real
+        function validarNome(nome) {
+            // Remove espaços extras
+            nome = nome.trim();
+
+            // Verifica tamanho mínimo (nome + sobrenome)
+            if (nome.length < 6) {
+                return { valido: false, erro: 'Nome muito curto. Digite o nome completo.' };
+            }
+
+            // Verifica se tem pelo menos 2 palavras (nome + sobrenome)
+            const palavras = nome.split(/\s+/).filter(p => p.length > 0);
+            if (palavras.length < 2) {
+                return { valido: false, erro: 'Digite nome e sobrenome completos.' };
+            }
+
+            // Verifica cada palavra
+            for (const palavra of palavras) {
+                // Verifica tamanho mínimo de cada palavra
+                if (palavra.length < 2) {
+                    return { valido: false, erro: 'Nome inválido. Use nomes completos.' };
+                }
+
+                // Verifica se tem vogais (nomes reais sempre têm vogais)
+                const vogais = palavra.match(/[aeiouáéíóúâêîôûãõ]/gi);
+                if (!vogais || vogais.length < 1) {
+                    return { valido: false, erro: `"${palavra}" não parece um nome válido.` };
+                }
+
+                // Verifica letras repetidas demais (ex: aaaa, bbbb)
+                if (/(.)\1{3,}/i.test(palavra)) {
+                    return { valido: false, erro: `"${palavra}" contém letras repetidas demais.` };
+                }
+
+                // Verifica sequências de consoantes muito longas (ex: kdjskdj)
+                if (/[bcdfghjklmnpqrstvwxyz]{5,}/i.test(palavra)) {
+                    return { valido: false, erro: `"${palavra}" não parece um nome válido.` };
+                }
+
+                // Verifica se não é só maiúsculas aleatórias
+                if (palavra.length > 4 && palavra === palavra.toUpperCase()) {
+                    const vogaisCount = (palavra.match(/[AEIOU]/g) || []).length;
+                    const consoantesCount = (palavra.match(/[BCDFGHJKLMNPQRSTVWXYZ]/g) || []).length;
+
+                    // Se tem mais de 70% de consoantes, provavelmente é falso
+                    if (consoantesCount > vogaisCount * 2.5) {
+                        return { valido: false, erro: `"${palavra}" não parece um nome válido.` };
+                    }
+                }
+
+                // Verifica padrões aleatórios comuns (alternância de vogal-consoante muito regular)
+                if (/^([bcdfghjklmnpqrstvwxyz][aeiou]){4,}$/i.test(palavra)) {
+                    return { valido: false, erro: `"${palavra}" não parece um nome válido.` };
+                }
+            }
+
+            return { valido: true };
+        }
+
+        // Função para mostrar alerta
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} show">
+                    ${message}
+                </div>
+            `;
+
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Função para enviar dados para Google Sheets com retry
+        async function enviarDados(dados, tentativa = 1) {
+            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyftEhNVd9HrSNsYgP2DekXDKY2Y6LUViV0dX4hUVXlAx82O-cG6llIVRbRgwY7o2g/exec';
+            const MAX_TENTATIVAS = 3;
+
+            // Log detalhado dos dados enviados
+            console.log(`📤 Enviando para Google Sheets (tentativa ${tentativa}/${MAX_TENTATIVAS}):`, {
+                url: GOOGLE_SHEETS_URL,
+                dados: dados,
+                json: JSON.stringify(dados)
+            });
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos timeout
+
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Google Apps Script requer no-cors
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dados),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                console.log('✅ Requisição enviada com sucesso');
+
+                // Com no-cors, não conseguimos ler a resposta
+                // Assumimos sucesso se não houver erro
+                return { success: true };
+
+            } catch (error) {
+                console.error(`❌ Erro na tentativa ${tentativa}:`, error);
+
+                // Se for erro de timeout ou rede e ainda tem tentativas
+                if (tentativa < MAX_TENTATIVAS) {
+                    const delay = tentativa * 1000; // 1s, 2s, 3s
+                    console.log(`⏳ Aguardando ${delay}ms antes de tentar novamente...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return enviarDados(dados, tentativa + 1);
+                }
+
+                throw error;
+            }
+        }
+
+        // Handler do formulário
+        document.getElementById('listForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btnSubmit = document.getElementById('btnSubmit');
+            const originalText = btnSubmit.innerHTML;
+
+            // Desabilita botão
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '⏳ Enviando...';
+
+            try {
+                const nomesInput = document.getElementById('nomes').value.trim();
+
+                // Validação básica
+                if (!nomesInput) {
+                    showAlert('✗ Por favor, digite pelo menos um nome', 'error');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalText;
+                    return;
+                }
+
+                // Separar nomes por linha e limpar
+                const nomesRaw = nomesInput
+                    .split('\n')
+                    .map(nome => nome.trim())
+                    .filter(nome => nome.length >= 3);
+
+                // Validação básica
+                if (nomesRaw.length === 0) {
+                    showAlert('✗ Por favor, digite pelo menos um nome válido', 'error');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalText;
+                    return;
+                }
+
+                // Validar cada nome para evitar nomes falsos
+                const nomes = [];
+                const nomesInvalidos = [];
+
+                for (const nome of nomesRaw) {
+                    const validacao = validarNome(nome);
+                    if (validacao.valido) {
+                        nomes.push(nome);
+                    } else {
+                        nomesInvalidos.push({ nome, erro: validacao.erro });
+                    }
+                }
+
+                // Se todos os nomes são inválidos
+                if (nomes.length === 0) {
+                    const primeiroErro = nomesInvalidos[0];
+                    showAlert(`✗ ${primeiroErro.erro}`, 'error');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalText;
+                    return;
+                }
+
+                // Se alguns nomes são inválidos, mostrar aviso
+                if (nomesInvalidos.length > 0) {
+                    const mensagemInvalidos = nomesInvalidos.map(n => `• ${n.nome}: ${n.erro}`).join('\n');
+                    if (!confirm(`⚠️ Os seguintes nomes parecem inválidos e serão ignorados:\n\n${mensagemInvalidos}\n\nDeseja continuar com os ${nomes.length} nome(s) válido(s)?`)) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = originalText;
+                        return;
+                    }
+                }
+
+                // Atualizar botão com progresso
+                btnSubmit.innerHTML = `⏳ Enviando ${nomes.length} nome(s)...`;
+
+                // Enviar cada nome separadamente
+                let sucessos = 0;
+                let erros = 0;
+
+                for (let i = 0; i < nomes.length; i++) {
+                    try {
+                        const formData = {
+                            evento: eventData.title,
+                            evento_id: eventData.id,
+                            evento_data: eventData.date,
+                            nome: nomes[i]
+                        };
+
+                        await enviarDados(formData);
+                        sucessos++;
+
+                        // Pequeno delay entre requisições para não sobrecarregar
+                        if (i < nomes.length - 1) {
+                            await new Promise(resolve => setTimeout(resolve, 500));
+                        }
+
+                    } catch (error) {
+                        console.error(`Erro ao enviar "${nomes[i]}":`, error);
+                        erros++;
+                    }
+                }
+
+                // Mensagem de resultado
+                if (erros === 0) {
+                    const mensagem = sucessos === 1
+                        ? '✓ Pronto! 1 nome foi adicionado à lista. Nos vemos no evento! 🎉'
+                        : `✓ Pronto! ${sucessos} nomes foram adicionados à lista. Nos vemos no evento! 🎉`;
+                    showAlert(mensagem, 'success');
+                    document.getElementById('listForm').reset();
+                } else {
+                    showAlert(`⚠️ ${sucessos} nome(s) adicionado(s), mas ${erros} falharam. Tente novamente os que falharam.`, 'error');
+                }
+
+            } catch (error) {
+                console.error('Erro:', error);
+                showAlert('✗ Ops! Ocorreu um erro. Tente novamente ou entre em contato conosco.', 'error');
+            } finally {
+                // Restaura botão
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalText;
+            }
+        });
+
+        // Foco automático no campo nomes
+        document.getElementById('nomes').focus();
+    </script>
+</body>
+</html>
